@@ -7,7 +7,7 @@ class Player(pygame.sprite.Sprite):
         super().__init__(group)
 
         # gen setup
-        self.image = pygame.Surface(32, 64)
+        self.image = pygame.Surface((32, 64))
         self.image.fill('green')
         self.rect = self.image.get_rect(center=pos)
 
@@ -26,26 +26,24 @@ class Player(pygame.sprite.Sprite):
         else:
             self.direction.y = 0
 
-
-
         if keys[pygame.K_RIGHT]:
-            self.direction.x = -1
-        elif keys[pygame.K_LEFT]:
             self.direction.x = 1
+        elif keys[pygame.K_LEFT]:
+            self.direction.x = -1
         else:
             self.direction.x = 0
 
     def move(self, dt):
-        #normalizing a vector
-        if self.direction.magnitude()> 0:
+        # normalizing a vector
+        if self.direction.magnitude() > 0:
             self.direction = self.direction.normalize()
 
-        #hori movement
-        self.pos.x += self.direction * self.speed * dt
-        self.rect.center = self.pos.x
-        #vert movement
-        self.pos.y += self.direction * self.speed * dt
-        self.rect.center = self.pos.y
+        # hori movement
+        self.pos.x += self.direction.x * self.speed * dt
+        self.rect.centerx = self.pos.x
+        # vert movement
+        self.pos.y += self.direction.y * self.speed * dt
+        self.rect.centery = self.pos.y
 
     def update(self, dt):
         self.input()
